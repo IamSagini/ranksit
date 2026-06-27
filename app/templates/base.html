@@ -48,6 +48,7 @@
   <main class="container">
     {% block content %}{% endblock %}
   </main>
+  {% if not user %}
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand">
@@ -68,6 +69,7 @@
       <span class="footer-by">Built by <a href="https://sagini.me" target="_blank" rel="noopener noreferrer">Sagini Technologies</a></span>
     </div>
   </footer>
+  {% endif %}
   <script>
     document.addEventListener('click', function(e){var m=document.getElementById('usermenu'); if(m && !m.contains(e.target)) m.classList.remove('open');});
   </script>
