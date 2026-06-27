@@ -5,3 +5,6 @@ python-multipart
 sqlmodel
 anthropic
 pydantic-settings
+bcrypt
+itsdangerous
+markdown
