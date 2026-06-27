@@ -232,10 +232,10 @@ def admin(request: Request, session: Session = Depends(get_session)):
         return dt.date()
     all_dates = [day(u.created_at) for u in users] + [day(p.created_at) for p in pieces] \
         + [day(p.updated_at) for p in published_pieces] + [day(l.created_at) for l in likes]
-    if all_dates:
-        start, end = min(all_dates), max(all_dates)
-    else:
-        start = end = datetime.utcnow().date()
+    today = datetime.utcnow().date()
+    end = today
+    earliest = min(all_dates) if all_dates else today
+    start = min(earliest, end - timedelta(days=13))
     labels, du, dp, dpub, dl = [], [], [], [], []
     cur = start
     while cur <= end:
