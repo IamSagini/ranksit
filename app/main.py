@@ -125,6 +125,65 @@ def login(request: Request, email: str = Form(...), password: str = Form(...),
     resp = RedirectResponse("/", status_code=303); auth.login_user(resp, user); return resp
 
 
+
+@app.get("/auth/google")
+def google_start(request: Request):
+    import urllib.parse, secrets as _secrets
+    if not settings.google_client_id:
+        return RedirectResponse("/login", status_code=303)
+    state = _secrets.token_urlsafe(24)
+    params = {
+        "client_id": settings.google_client_id,
+        "redirect_uri": settings.base_url.rstrip("/") + "/auth/google/callback",
+        "response_type": "code",
+        "scope": "openid email profile",
+        "state": state,
+        "access_type": "online",
+        "prompt": "select_account",
+    }
+    url = "https://accounts.google.com/o/oauth2/v2/auth?" + urllib.parse.urlencode(params)
+    resp = RedirectResponse(url, status_code=303)
+    resp.set_cookie("g_state", state, max_age=600, httponly=True, samesite="lax")
+    return resp
+
+
+@app.get("/auth/google/callback")
+def google_callback(request: Request, code: str = "", state: str = "",
+                    session: Session = Depends(get_session)):
+    import httpx
+    if not code or request.cookies.get("g_state") != state:
+        return RedirectResponse("/login", status_code=303)
+    token_resp = httpx.post("https://oauth2.googleapis.com/token", data={
+        "code": code,
+        "client_id": settings.google_client_id,
+        "client_secret": settings.google_client_secret,
+        "redirect_uri": settings.base_url.rstrip("/") + "/auth/google/callback",
+        "grant_type": "authorization_code",
+    }, timeout=15)
+    if token_resp.status_code != 200:
+        return RedirectResponse("/login?error=google", status_code=303)
+    access = token_resp.json().get("access_token")
+    info = httpx.get("https://www.googleapis.com/oauth2/v2/userinfo",
+                     headers={"Authorization": f"Bearer {access}"}, timeout=15).json()
+    email = (info.get("email") or "").strip().lower()
+    sub = info.get("id") or ""
+    name = info.get("name") or (email.split("@")[0] if email else "User")
+    if not email:
+        return RedirectResponse("/login?error=google", status_code=303)
+    user = session.exec(select(User).where(User.email == email)).first()
+    if not user:
+        user = User(email=email, name=name, password_hash="",
+                    auth_provider="google", google_sub=sub)
+        session.add(user); session.commit(); session.refresh(user)
+    elif not user.google_sub:
+        user.google_sub = sub
+        session.add(user); session.commit()
+    resp = RedirectResponse("/", status_code=303)
+    auth.login_user(resp, user)
+    resp.delete_cookie("g_state")
+    return resp
+
+
 @app.post("/logout")
 def logout():
     resp = RedirectResponse("/login", status_code=303); auth.logout_user(resp); return resp
