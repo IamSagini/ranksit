@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">Community</p><h1>Explore</h1></div></section>
+{% if not cards %}
+<div class="empty"><p class="empty-title">No public pieces yet.</p><p class="empty-sub">Publish one of your pieces and it shows up here for everyone.</p></div>
+{% else %}
+<div class="explore-grid">
+  {% for c in cards %}
+  <article class="explore-card">
+    <a class="explore-link" href="/explore/{{ c.p.id }}">
+      <div class="explore-top"><span class="piece-gauge {{ 'good' if c.p.score >= 80 else 'mid' if c.p.score >= 50 else 'low' }}">{{ c.p.score }}</span><span class="tag">{{ c.p.content_type }}</span></div>
+      <h3 class="explore-title">{{ c.p.title or c.p.keyword }}</h3>
+      <p class="explore-meta">{{ c.p.meta_description[:110] }}</p>
+    </a>
+    <div class="explore-foot">
+      <span class="explore-author">by {{ c.author }}</span>
+      {% with piece_id=c.p.id, count=c.count, liked=c.liked %}{% include "partials/like_button.html" %}{% endwith %}
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">{{ "Editing" if piece and piece.id else "New piece" }}</p>
+    <h1>{{ piece.title if piece and piece.title else "Generate content" }}</h1>
+  </div>
+  {% if piece and piece.id %}
+  <div class="head-actions">
+    <a class="btn" href="/piece/{{ piece.id }}/export">Export markdown</a>
+    <form method="post" action="/piece/{{ piece.id }}/status" style="display:inline">
+      <button class="btn{{ ' btn-primary' if not piece.is_public }}" type="submit">{{ "Make private" if piece.is_public else "Publish to Explore" }}</button>
+    </form>
+    {% if piece.is_public %}<a class="btn" href="/explore/{{ piece.id }}">View public</a>{% endif %}
+    <form method="post" action="/piece/{{ piece.id }}/delete" style="display:inline"
+          onsubmit="return confirm('Delete this piece?')">
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+  </div>
+  {% endif %}
+</section>
+
+{% if not piece or not piece.id %}
+<form class="generate-bar" hx-post="/generate" hx-target="#workspace" hx-swap="innerHTML"
+      hx-indicator="#gen-spin">
+  <input type="text" name="keyword" placeholder="Target keyword, e.g. how to register a company in the UK" required>
+  <select name="content_type">
+    <option value="blog">Blog post</option>
+    <option value="landing">Landing page</option>
+    <option value="product">Product description</option>
+  </select>
+  <select name="tone">
+    <option value="professional">Professional</option>
+    <option value="friendly">Friendly</option>
+    <option value="authoritative">Authoritative</option>
+  </select>
+  <button class="btn btn-primary" type="submit">
+    Generate <span id="gen-spin" class="spinner htmx-indicator"></span>
+  </button>
+</form>
+{% endif %}
+
+<div id="workspace">
+  {% if piece and piece.id %}
+    {% include "partials/workspace.html" %}
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head"><div><p class="eyebrow">Admin</p><h1>Dashboard</h1></div></section>
+<div class="admin-grid">
+  <div class="stat-card"><span class="stat-num">{{ stats.users }}</span><span class="stat-label">Total users</span></div>
+  <div class="stat-card"><span class="stat-num">{{ stats.pieces }}</span><span class="stat-label">Pieces created</span></div>
+  <div class="stat-card"><span class="stat-num">{{ stats.published }}</span><span class="stat-label">Published to Explore</span></div>
+  <div class="stat-card"><span class="stat-num">{{ stats.likes }}</span><span class="stat-label">Total likes</span></div>
+</div>
+<div class="chart-card">
+  <h2 class="chart-title">Growth over time</h2>
+  <canvas id="growthChart" height="110"></canvas>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+  (function () {
+    var data = {{ chart|safe }};
+    var css = getComputedStyle(document.documentElement);
+    var ink = (css.getPropertyValue('--ink-soft') || '#888').trim();
+    var line = (css.getPropertyValue('--line') || '#333').trim();
+    function ds(label, arr, color) {
+      return { label: label, data: arr, borderColor: color, backgroundColor: color + '22',
+               tension: 0.3, fill: false, pointRadius: 2, borderWidth: 2 };
+    }
+    new Chart(document.getElementById('growthChart'), {
+      type: 'line',
+      data: { labels: data.labels, datasets: [
+        ds('Users', data.users, '#4f3ff0'),
+        ds('Pieces', data.pieces, '#1d9e75'),
+        ds('Published', data.published, '#e0a400'),
+        ds('Likes', data.likes, '#e0556f')
+      ]},
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          x: { grid: { color: line }, ticks: { color: ink } },
+          y: { grid: { color: line }, ticks: { color: ink, precision: 0 }, beginAtZero: true }
+        },
+        plugins: { legend: { labels: { color: ink, usePointStyle: true, boxWidth: 8 } } }
+      }
+    });
+  })();
+</script>
+{% endblock %}

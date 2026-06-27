@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="reader">
+  <a href="/explore" class="back-link">← Explore</a>
+  <p class="eyebrow">{{ piece.content_type }} · by {{ author }}</p>
+  <h1 class="reader-title">{{ piece.title or piece.keyword }}</h1>
+  <div class="reader-bar">
+    <span class="piece-gauge {{ 'good' if piece.score >= 80 else 'mid' if piece.score >= 50 else 'low' }}">{{ piece.score }}</span>
+    <span class="reader-score-label">SEO score</span>
+    <div style="margin-left:auto">{% with piece_id=piece.id, count=count, liked=liked %}{% include "partials/like_button.html" %}{% endwith %}</div>
+  </div>
+  <article class="reader-body">{{ body_html|safe }}</article>
+</div>
+{% endblock %}

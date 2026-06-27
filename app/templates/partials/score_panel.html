@@ -1,0 +1,45 @@
+{% set band = 'good' if result.score >= 80 else 'mid' if result.score >= 50 else 'low' %}
+<div class="gauge-wrap">
+  <div class="gauge {{ band }}" style="--val: {{ result.score }}">
+    <div class="gauge-inner">
+      <span class="gauge-num">{{ result.score }}</span>
+      <span class="gauge-cap">SEO score</span>
+    </div>
+  </div>
+  <p class="gauge-sub">{{ result.passed }} of {{ result.total }} checks passing</p>
+</div>
+
+{% if result.metrics %}
+<div class="metrics">
+  <div class="metric"><span class="metric-num">{{ result.metrics.words }}</span><span class="metric-label">words</span></div>
+  <div class="metric"><span class="metric-num">{{ result.metrics.reading_time }}m</span><span class="metric-label">read</span></div>
+  <div class="metric"><span class="metric-num">{{ result.metrics.avg_sentence }}</span><span class="metric-label">avg sent</span></div>
+  <div class="metric"><span class="metric-num">{{ result.metrics.links }}</span><span class="metric-label">links</span></div>
+</div>
+{% endif %}
+
+{% if result.categories %}
+<div class="cat-bars">
+  {% for cat in result.categories %}
+  <div class="cat-row">
+    <div class="cat-head"><span class="cat-name">{{ cat.name }}</span><span class="cat-score">{{ cat.passed }}/{{ cat.total }}</span></div>
+    <div class="cat-track"><div class="cat-fill {{ 'good' if cat.subscore >= 80 else 'mid' if cat.subscore >= 50 else 'low' }}" style="width: {{ cat.subscore }}%"></div></div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<ul class="checks">
+  {% for c in result.checks %}
+  <li class="check {{ 'pass' if c.passed else 'fail' }}">
+    <span class="check-icon">{{ "✓" if c.passed else "!" }}</span>
+    <div class="check-body">
+      <div class="check-top">
+        <span class="check-name">{{ c.name }}</span>
+        <span class="check-detail">{{ c.detail }}</span>
+      </div>
+      {% if not c.passed %}<div class="check-fix">{{ c.fix }}</div>{% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>

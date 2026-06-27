@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="legal">
+  <p class="eyebrow">Legal</p>
+  <h1>Privacy Policy</h1>
+  <p class="legal-updated">Last updated {{ year }}</p>
+  <p>This policy explains what information Ranksit collects, why, and how it is handled. By using Ranksit you agree to the practices described here.</p>
+  <h2>Information we collect</h2>
+  <p>When you create an account we store your name, email address and a securely hashed version of your password. We never store your password in plain text. We also store the content you generate and save, along with basic usage records such as how many pieces you generate each day.</p>
+  <h2>How we use it</h2>
+  <p>Your information is used to provide the service: to authenticate you, keep your library private to you, enforce fair-use limits, and let you publish content to the Explore feed when you choose to. We do not sell your personal data.</p>
+  <h2>Content generation</h2>
+  <p>To generate content, the keyword and settings you submit are sent to the Anthropic API and, where relevant, used to perform web searches for factual grounding. Generated drafts are stored in your account so you can return to them.</p>
+  <h2>Cookies</h2>
+  <p>Ranksit uses a single essential cookie to keep you logged in. It contains a signed session identifier and is not used for advertising or third-party tracking.</p>
+  <h2>Your choices</h2>
+  <p>You can delete any piece from your library at any time. To delete your account and associated data, contact us through <a href="https://sagini.me" target="_blank" rel="noopener noreferrer">sagini.me</a>.</p>
+  <h2>Changes</h2>
+  <p>We may update this policy as the product evolves. Material changes will be reflected by the date above.</p>
+</div>
+{% endblock %}

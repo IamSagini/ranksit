@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Content library</p>
+    <h1>Your pieces</h1>
+  </div>
+  {% if pieces %}
+  <div class="stat">
+    <span class="stat-num">{{ avg }}</span>
+    <span class="stat-label">avg score</span>
+  </div>
+  {% endif %}
+</section>
+
+{% if not pieces %}
+<div class="empty">
+  <p class="empty-title">Nothing here yet.</p>
+  <p class="empty-sub">Generate your first optimised piece and it lands here with its score.</p>
+  <a href="/new" class="btn btn-primary">Create a piece</a>
+</div>
+{% else %}
+<div class="piece-list">
+  {% for p in pieces %}
+  <a class="piece-row" href="/piece/{{ p.id }}">
+    <div class="piece-gauge {{ 'good' if p.score >= 80 else 'mid' if p.score >= 50 else 'low' }}">
+      <span>{{ p.score }}</span>
+    </div>
+    <div class="piece-main">
+      <div class="piece-title">{{ p.title or p.keyword }}</div>
+      <div class="piece-meta">
+        <span class="tag">{{ p.content_type }}</span>
+        <span class="kw">{{ p.keyword }}</span>
+        <span class="status status-{{ p.status }}">{{ p.status }}</span>
+      </div>
+    </div>
+    <div class="piece-date">{{ p.updated_at.strftime("%d %b") }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

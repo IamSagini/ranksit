@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-wrap">
+  <a href="/" class="auth-logo"><img src="/static/favicon.svg" alt="" width="34" height="34"><span class="auth-logo-name">rank<span class="brand-accent">sit</span></span></a>
+  <p class="eyebrow">Welcome back</p>
+  <h1>Log in</h1>
+  {% if error %}<div class="notice">{{ error }}</div>{% endif %}
+  <form method="post" action="/login" class="auth-form">
+    <label class="field"><span>Email</span><input type="email" name="email" required autofocus></label>
+    <label class="field"><span>Password</span><input type="password" name="password" required></label>
+    <button class="btn btn-primary" type="submit">Log in</button>
+  </form>
+  <p class="auth-alt">No account? <a href="/signup">Sign up</a></p>
+</div>
+{% endblock %}

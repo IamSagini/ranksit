@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-wrap">
+  <a href="/" class="auth-logo"><img src="/static/favicon.svg" alt="" width="34" height="34"><span class="auth-logo-name">rank<span class="brand-accent">sit</span></span></a>
+  <p class="eyebrow">Get started</p>
+  <h1>Create your account</h1>
+  {% if try_keyword %}<div class="auth-hint">Sign up to generate content for <strong>{{ try_keyword }}</strong>.</div>{% endif %}
+  {% if error %}<div class="notice">{{ error }}</div>{% endif %}
+  <form method="post" action="/signup" class="auth-form">
+    <label class="field"><span>Name</span><input type="text" name="name" required autofocus></label>
+    <label class="field"><span>Email</span><input type="email" name="email" required></label>
+    <label class="field"><span>Password <em>(8+ characters)</em></span><input type="password" name="password" minlength="8" required></label>
+    <button class="btn btn-primary" type="submit">Create account</button>
+  </form>
+  <p class="auth-alt">Already have an account? <a href="/login">Log in</a></p>
+</div>
+{% endblock %}

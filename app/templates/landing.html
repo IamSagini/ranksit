@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <p class="hero-eyebrow">AI content that ranks</p>
+  <h1 class="hero-title">Turn a keyword into<br><span class="hero-accent">publish-ready, optimised content.</span></h1>
+  <p class="hero-sub">Ranksit researches real facts, writes the draft, and scores it against the SEO checks that actually move rankings. Then you export and publish.</p>
+  <form class="hero-try" method="get" action="/signup">
+    <input type="text" name="keyword" placeholder="Try a topic, e.g. how to register a company in the UK" required>
+    <button class="btn btn-primary" type="submit">Try it free</button>
+  </form>
+  <p class="hero-try-note">Pick a topic and create a free account to generate it.</p>
+  <div class="hero-chips">
+    <span class="hero-chip-label">Popular:</span>
+    <a class="hero-chip" href="/signup?keyword=how+to+register+a+company+in+the+UK">register a company in the UK</a>
+    <a class="hero-chip" href="/signup?keyword=best+project+management+software+2026">best project management software</a>
+    <a class="hero-chip" href="/signup?keyword=remote+work+productivity+tips">remote work productivity tips</a>
+  </div>
+
+  <div class="hero-feats">
+    <div class="hero-feat"><span class="hero-feat-k">Researched</span><span class="hero-feat-v">Pulls real, current facts from the web and cites every source.</span></div>
+    <div class="hero-feat"><span class="hero-feat-k">20-point audit</span><span class="hero-feat-v">Scores keyword, metadata, structure, readability and evidence.</span></div>
+    <div class="hero-feat"><span class="hero-feat-k">Live feedback</span><span class="hero-feat-v">The score updates as you edit, with a fix for every check.</span></div>
+    <div class="hero-feat"><span class="hero-feat-k">Ready to ship</span><span class="hero-feat-v">Export to markdown or publish straight to Explore.</span></div>
+  </div>
+</section>
+<section class="how" id="how">
+  <h2 class="section-title">How it works</h2>
+  <div class="how-grid">
+    <div class="how-step"><span class="how-num">1</span><h3>Enter a keyword</h3><p>Tell Ranksit your topic, content type and tone. That's the only input it needs.</p></div>
+    <div class="how-step"><span class="how-num">2</span><h3>Get a researched draft</h3><p>It searches the web for real facts and figures, writes a full article, and cites its sources.</p></div>
+    <div class="how-step"><span class="how-num">3</span><h3>Score, edit, ship</h3><p>A live SEO score shows exactly what to fix. Export to markdown or publish to Explore.</p></div>
+  </div>
+</section>
+<section class="examples" id="features">
+  <h2 class="section-title">What it produces</h2>
+  <div class="example-grid">
+    <div class="example-card"><div class="example-top"><span class="piece-gauge good">92</span><span class="tag">blog</span></div><h3>How to Register a Company in the UK</h3><p>Researched, cited, and optimised, scored 92 out of 100 across twenty SEO checks.</p></div>
+    <div class="example-card"><div class="example-top"><span class="piece-gauge good">88</span><span class="tag">landing</span></div><h3>Best Project Management Software in 2026</h3><p>Keyword in the title, intro and headings, clean slug, ideal meta length.</p></div>
+    <div class="example-card"><div class="example-top"><span class="piece-gauge mid">74</span><span class="tag">product</span></div><h3>Remote Work Productivity: A Practical Guide</h3><p>Live score flags exactly what to improve, with a specific fix for every check.</p></div>
+  </div>
+</section>
+<section class="pricing" id="pricing">
+  <h2 class="section-title">Simple pricing</h2>
+  <div class="price-grid">
+    <div class="price-card">
+      <h3 class="price-name">Free</h3>
+      <p class="price-amt">£0<span>/mo</span></p>
+      <p class="price-sub">Everything you need to start.</p>
+      <ul class="price-list">
+        <li>10 generations per day</li>
+        <li>Full 20-point SEO audit</li>
+        <li>Web-researched, cited content</li>
+        <li>Publish to Explore</li>
+        <li>Markdown export</li>
+      </ul>
+      <a class="btn btn-primary" href="/signup">Get started free</a>
+    </div>
+    <div class="price-card price-pro">
+      <span class="price-badge">Pro</span>
+      <h3 class="price-name">Pro</h3>
+      <p class="price-amt">£12<span>/mo</span></p>
+      <p class="price-sub">For people publishing at volume.</p>
+      <ul class="price-list">
+        <li>Unlimited generations</li>
+        <li>Everything in Free</li>
+        <li>Priority generation</li>
+        <li>Bulk keyword input <em>(coming soon)</em></li>
+        <li>Live rank tracking <em>(coming soon)</em></li>
+      </ul>
+      <a class="btn btn-primary" href="/signup">Start free, upgrade later</a>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <h2 class="section-title">Frequently asked questions</h2>
+  <div class="faq-list">
+    <details class="faq-item"><summary>How does Ranksit generate content?</summary><p>You enter a target keyword, content type and tone. Ranksit searches the web for real, current facts, writes a full draft, cites its sources as links, and scores it against twenty SEO checks, all in one pass.</p></details>
+    <details class="faq-item"><summary>Is the content actually researched, or just made up?</summary><p>It uses live web search to ground each article in real sources and figures, and cites them inline. It is instructed never to invent statistics, and to omit anything it cannot verify.</p></details>
+    <details class="faq-item"><summary>What does the SEO score measure?</summary><p>Twenty checks across five areas: keyword usage, metadata, structure, readability and evidence. Each failing check comes with a specific fix, and the score updates live as you edit.</p></details>
+    <details class="faq-item"><summary>What is the free plan limit?</summary><p>Ten generations per day on the free plan, which resets daily. The SEO scoring, editing, publishing and export are all unlimited.</p></details>
+    <details class="faq-item"><summary>Where does my content go after I write it?</summary><p>Your library is private to you. You can export any piece as markdown to publish on your own site, or publish it to Explore where other users can read and like it.</p></details>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Ready to rank?</h2>
+  <p>Create a free account and generate your first optimised piece in under a minute.</p>
+  <a class="btn btn-primary btn-lg" href="/signup">Get started free</a>
+</section>
+{% endblock %}

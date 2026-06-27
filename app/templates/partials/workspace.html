@@ -1,0 +1,37 @@
+{% if notice %}<div class="notice">{{ notice }}</div>{% endif %}
+{% if piece.brief %}<div class="brief"><strong>Brief.</strong> {{ piece.brief }}</div>{% endif %}
+
+<form method="post" action="/save" class="workspace">
+  <input type="hidden" name="piece_id" value="{{ piece.id or '' }}">
+  <input type="hidden" name="content_type" value="{{ piece.content_type or 'blog' }}">
+
+  <div class="editor-col"
+       hx-post="/score" hx-trigger="keyup changed delay:400ms from:.editor-col"
+       hx-target="#score-panel" hx-swap="innerHTML" hx-include=".editor-col">
+    <label class="field">
+      <span>Target keyword</span>
+      <input type="text" name="keyword" value="{{ piece.keyword }}" required>
+    </label>
+    <label class="field">
+      <span>Title <em>(≤60 chars)</em></span>
+      <input type="text" name="title" value="{{ piece.title }}">
+    </label>
+    <label class="field">
+      <span>Meta description <em>(120-160 chars)</em></span>
+      <textarea name="meta_description" rows="2">{{ piece.meta_description }}</textarea>
+    </label>
+    <label class="field">
+      <span>URL slug</span>
+      <input type="text" name="slug" value="{{ piece.slug }}">
+    </label>
+    <label class="field">
+      <span>Draft <em>(markdown)</em></span>
+      <textarea name="draft" rows="20" class="draft">{{ piece.draft }}</textarea>
+    </label>
+    <button class="btn btn-primary" type="submit">Save piece</button>
+  </div>
+
+  <aside id="score-panel" class="score-col">
+    {% include "partials/score_panel.html" %}
+  </aside>
+</form>
