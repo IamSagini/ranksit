@@ -104,14 +104,15 @@ def signup(request: Request, name: str = Form(...), email: str = Form(...),
         return templates.TemplateResponse(request, "signup.html", _ctx(request, error="An account with that email already exists."))
     user = User(email=email, name=name.strip(), password_hash=auth.hash_password(password))
     session.add(user); session.commit(); session.refresh(user)
-    resp = RedirectResponse("/", status_code=303); auth.login_user(resp, user); return resp
+    return RedirectResponse("/login?created=1", status_code=303)
 
 
 @app.get("/login", response_class=HTMLResponse)
-def login_form(request: Request):
+def login_form(request: Request, created: str = ""):
     if auth.current_user(request):
         return RedirectResponse("/", status_code=303)
-    return templates.TemplateResponse(request, "login.html", _ctx(request))
+    notice = "Account created. Please log in." if created else ""
+    return templates.TemplateResponse(request, "login.html", _ctx(request, notice=notice))
 
 
 @app.post("/login")

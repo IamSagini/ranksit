@@ -356,3 +356,5 @@ html { scroll-behavior: smooth; }
 
 .chart-card { margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
 .chart-title { font-size: 1.05rem; margin: 0 0 18px; }
+
+.notice-ok { background: rgba(29,158,117,0.12); border-color: var(--good); color: var(--good); }
